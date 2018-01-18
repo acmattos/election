@@ -1,7 +1,6 @@
 package br.com.acmattos.election.auth2;
 
 import br.com.acmattos.election.employee.*;
-import br.com.acmattos.election.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * User Details Service implementation to be used throughout the Spring Security 
+ * Credential Details Service implementation to be used throughout the Spring Security
  * framework as a user DAO and is the strategy used by the 
  * DaoAuthenticationProvider.
  * 
@@ -30,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       "Username [%s] has no authorities!";   
    private static final String ROLE_PREFIX = "ROLE_";   
    @Autowired
-   private UserRepository repository;
+   private CredentialService service;
    
    /**
     * Locates the user based on the username. The user name is CASE SENSITIVE!
@@ -43,57 +42,56 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    @Override
    public UserDetails loadUserByUsername(String username)
       throws UsernameNotFoundException {
-      User user = repository.findByUsername(username);
-      checkUser(user, username);
+      Credential credential = service.findCredentialWithFullProfileByUsername(username);
+      checkCredential(credential, username);
 
       List<GrantedAuthority> authorities = new ArrayList<>();
-      checkGrantAuthorities(user, authorities, username);
+      checkGrantAuthorities(credential, authorities, username);
 
-      UserDetails userDetails = createUserDetails(user, authorities);
+      UserDetails userDetails = createUserDetails(credential, authorities);
       return userDetails;
    }
 
    /**
-    * Checks user's integrity.
+    * Checks credential's integrity.
     *
-    * @param user User found by this service.
-    * @param username Username identifying the user whose data is required.
-    * @return A fully populated user record (never null).
-    * @throws UsernameNotFoundException If the user could not be found or is 
+    * @param credential Credential found by this service.
+    * @param username Username identifying the credential whose data is required.
+    * @return A fully populated credential record (never null).
+    * @throws UsernameNotFoundException If the credential could not be found or is
     *         disabled.
     */
-   private void checkUser(User user, String username){
-      if(null == user || !user.isEnabled()){
+   private void checkCredential(Credential credential, String username){
+      if(null == credential || !credential.isEnabled()){
          throw new UsernameNotFoundException(
             String.format(USER_NAME_NOT_FOUND_FORMAT, username)); 
       }
    }
 
    /**
-    * Checks granted authorities for the user.
+    * Checks granted authorities for the credential.
     *
-    * @param user User found by this service.
-    * @param authorities List of granted authorities of this user.
-    * @param username Username identifying the user whose data is required.
-    * @return A fully populated user record (never null).
-    * @throws UsernameNotFoundException If the user has no GrantedAuthority.
+    * @param credential Credential found by this service.
+    * @param authorities List of granted authorities of this credential.
+    * @param username Username identifying the credential whose data is required.
+    * @return A fully populated credential record (never null).
+    * @throws UsernameNotFoundException If the credential has no GrantedAuthority.
     */
-   private void checkGrantAuthorities(User user,
+   private void checkGrantAuthorities(Credential credential,
                                       List<GrantedAuthority> authorities,
                                       String username)  
                                       throws UsernameNotFoundException{
-      if(null != user.getProfiles() && !user.getProfiles().isEmpty()){
-         user.getProfiles().stream().foreach(profile => {
+      if(null != credential.getProfiles() && !credential.getProfiles().isEmpty()){
+         credential.getProfiles().stream().forEach(profile -> {
             
             if(profile.isEnabled() 
                && null != profile.getRoles() && !profile.getRoles().isEmpty()){
-               profile.getRoles().stream().foreach(role => {
+               profile.getRoles().stream().forEach(role -> {
                   
                   if(role.isEnabled()){
                      authorities.add(
-                        new GrantedAuthorityImpl(
-                           ROLE_PREFIX + role.getDescription().upper()));
-         
+                        new SimpleGrantedAuthority(ROLE_PREFIX +
+                           role.getDescription().toUpperCase()));
                   }
                });
             }
@@ -109,11 +107,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    /**
     * Creates a Spring Security UserDetails' instance.
     * 
-    * @param user User found by this service.
-    * @param authorities List of granted authorities of this user.
-    * @return Spring Security UserDetails' instance based on the User found.
+    * @param credential Credential found by this service.
+    * @param authorities List of granted authorities of this credential.
+    * @return Spring Security UserDetails' instance based on the Credential found.
     */
-   private UserDetails createUserDetails(User user, 
+   private UserDetails createUserDetails(Credential credential,
                                          List<GrantedAuthority> authorities){
       boolean accountNonLocked = true;
       boolean enabledUser = true;
@@ -121,7 +119,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       boolean credentialsNonExpired = true;
       UserDetails userDetails = 
          new org.springframework.security.core.userdetails.User(
-            user.getUsername(), user.getPassword(), enabledUser, 
+            credential.getUsername(), credential.getPassword(), enabledUser,
             accountNonExpired, credentialsNonExpired, accountNonLocked, 
             authorities);
       return userDetails;

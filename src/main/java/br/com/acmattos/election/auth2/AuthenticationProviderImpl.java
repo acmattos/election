@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * This AuthenticationProvider's Implementation is used by Spring Security 
- * framework to handle User's authentication.
+ * framework to handle Credential's authentication.
  * 
  * @author acmattos
  * @since 16/01/2018
