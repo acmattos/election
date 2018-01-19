@@ -2,15 +2,10 @@ package br.com.acmattos.election.employee;
 
 import lombok.*;
 
-import java.util.List;
-
-import org.hibernate.annotations.Cascade;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Credentials that allows someone to access the application.
@@ -30,6 +25,7 @@ import javax.validation.constraints.Size;
 @ToString(exclude = "profiles")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(CredentialListener.class)
 @Entity
 public class Credential {
    /** Credential's Identity. */
@@ -50,18 +46,14 @@ public class Credential {
    @Size(min=1, max=100)
    private String password;
    /** Credential's Granted Authorities. Cannot return null. */
-   @ManyToMany(cascade = CascadeType.ALL)//(mappedBy = "profile", fetch = FetchType.EAGER) // TODO MAP CORRECTLY http://blog.jbaysolutions.com/2012/12/17/jpa-2-relationships-many-to-many/
+   @ManyToMany//(cascade = CascadeType.ALL)//(mappedBy = "profile", fetch = FetchType.EAGER) // TODO MAP CORRECTLY http://blog.jbaysolutions.com/2012/12/17/jpa-2-relationships-many-to-many/
    private List<Profile> profiles;
    /** */
 //   @OneToOne(mappedBy = "credential")
 //   private Employee employee;
     /** Credential's 'Enabled' Indicator. Indicates whether the user is enabled or disabled. A disabled user cannot be authenticated. */
    private boolean enabled;
-
-   @PrePersist
-   public void onPrePersist() {
-      // TODO CHANGE PASSWORD MUST REENCRIPTY IT
-      String senhaOfuscada = new BCryptPasswordEncoder().encode(this.getPassword());
-      this.setPassword(senhaOfuscada);
-   }   
+   /** */
+   @Size(min=4, max=30)
+   private String rawPassword; //TODO DOCUMENT SOLUTION
 }

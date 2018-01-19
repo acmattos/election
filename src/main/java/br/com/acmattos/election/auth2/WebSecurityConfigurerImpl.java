@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * @author acmattos
- * TODO CHECK
+ * TODO JAVADOC, CHECK
  * TODO https://spring.io/guides/tutorials/spring-security-and-angular-js/#_sso_with_oauth2_angular_js_and_spring_security_part_v
  */
 @Configuration

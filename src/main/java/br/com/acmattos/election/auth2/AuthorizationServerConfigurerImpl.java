@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
  * @EnableAuthorizationServer.
  * @author acmattos
  * @since 16/01/2018
- * TODO CHECK, UNIT TEST
+ * TODO JAVADOC, CHECK, UNIT TEST
  */
 @Configuration
 @EnableAuthorizationServer

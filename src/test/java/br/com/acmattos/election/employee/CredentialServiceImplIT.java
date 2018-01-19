@@ -10,10 +10,17 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author acmattos
+ * @since 18/01/2018
+ */
 public class CredentialServiceImplIT extends IntegrationTest{
 
     @Autowired
     private CredentialRepository repository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Autowired
     private CredentialServiceImpl service;
@@ -29,9 +36,10 @@ public class CredentialServiceImplIT extends IntegrationTest{
                 .roles(new ArrayList<Role>(){{ add(role); }})
                 .enabled(true)
                 .build();
+        profileRepository.save(profile);
         Credential credential = Credential.builder()
                 .username("username")
-                .password("password")
+                .rawPassword("password")
                 .profiles(new ArrayList<Profile>(){{ add(profile); }})
                 .enabled(true)
                 .build();
@@ -41,11 +49,12 @@ public class CredentialServiceImplIT extends IntegrationTest{
     @After
     public void tearDown() throws Exception {
         repository.deleteAll();
+        profileRepository.deleteAll();
     }
 
     @Test
     public void findCredentialWithFullProfileByUsername_notFound() throws Exception {
-        String username = "username1";
+        String username = "notfound";
         Credential credential = service.findCredentialWithFullProfileByUsername(username);
         assertNull("Credential must not de found", credential);
     }

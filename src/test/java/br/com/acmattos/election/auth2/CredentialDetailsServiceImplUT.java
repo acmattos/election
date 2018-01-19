@@ -17,7 +17,6 @@ import static org.mockito.Mockito.*;
 /**
  * @author acmattos
  * @since 16/01/2018
- * TODO CHECK
  */
 public class CredentialDetailsServiceImplUT extends UnitTest {
 
