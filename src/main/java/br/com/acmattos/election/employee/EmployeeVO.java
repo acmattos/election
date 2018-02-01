@@ -1,5 +1,7 @@
 package br.com.acmattos.election.employee;
 
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
  * @since 18/01/2018
  * TODO JAVADOC, CHECK, UNIT TEST
  */
+@ApiModel(value="Employee",
+          description="Employee data, composed by id, employeeId, name, email and credential")
 @Builder
 @Getter
 @Setter
@@ -19,14 +23,19 @@ import java.util.List;
 @AllArgsConstructor
 public class EmployeeVO {
    /***/
+   @ApiModelProperty(example="1", position = 1, required = false, readOnly = true)
    private Long id;
     /***/
+   @ApiModelProperty(example="10001", position = 2, required = true)
    private Integer employeeId;
    /***/
+   @ApiModelProperty(example="John Doe", position = 3, required = true)
    private String name;
    /***/
+   @ApiModelProperty(example="jdoe@email.com", position = 4, required = true)
    private String email;
    /***/
+   @ApiModelProperty(position = 5, required = true)
    private CredentialVO credential;
 
    /**
@@ -34,6 +43,7 @@ public class EmployeeVO {
     *
     * @return true if it's valid, other wise false.
     */
+   @ApiModelProperty(hidden = true)
    public boolean isValid(){
       return null != employeeId && employeeId > 0
          && null != this.name && this.name.length() > 0
@@ -69,7 +79,7 @@ public class EmployeeVO {
          vo = EmployeeVO.builder()
             .id(entity.getId())
             .name(entity.getName())
-            .employeeId(entity.getEmployeeId())
+            .employeeId(entity.getEmployeeid())
             .email(entity.getEmail())
             .credential(CredentialVO.toVO(entity.getCredential()))
             .build();
@@ -89,7 +99,7 @@ public class EmployeeVO {
          entity = Employee.builder()
             .id(vo.getId())
             .name(vo.getName())
-            .employeeId(vo.getEmployeeId())
+            .employeeid(vo.getEmployeeId())
             .email(vo.getEmail())
             .credential(CredentialVO.toEntity(vo.getCredential()))
             .build();
