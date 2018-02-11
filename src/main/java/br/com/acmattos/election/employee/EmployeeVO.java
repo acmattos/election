@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Value Object that is similar to Employee entity, responsible to hold
+ * Employee's data outside application scope.
+ *
  * @author acmattos
  * @since 18/01/2018
  * TODO JAVADOC, CHECK, UNIT TEST
@@ -52,7 +55,7 @@ public class EmployeeVO {
    }
 
    /**
-    * Converts a listt of entities into a list of VOs.
+    * Converts a list of entities into a list of VOs.
     *
     * @param entities Employees.
     * @return A list of VOs equivalent to the given entities.

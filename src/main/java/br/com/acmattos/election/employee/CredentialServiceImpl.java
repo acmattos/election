@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Implementation of infraestructure service available for retrieving full
  * credential info.
+ * In order to allow later collection initialization, this class must be
+ * annotated as transactional.
  *
  * @author acmattos
  * @since 17/01/2018

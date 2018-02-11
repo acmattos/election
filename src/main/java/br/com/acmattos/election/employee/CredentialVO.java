@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
 
 /**
+ * Value Object that is similar to Credential entity, responsible to hold
+ * Credential's data outside application scope.
+ *
  * @author acmattos
  * @since 18/01/2018
  * TODO JAVADOC, CHECK, UNIT TEST

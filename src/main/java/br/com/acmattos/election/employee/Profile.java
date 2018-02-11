@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * A profile is a collection of (security) roles. Each profile has its group of 
- * roles, allowing credentials to access major groups of application's functionality.
+ * roles, allowing credentials to access major groups of application's
+ * functionality.
  * If the specific profile is disabled, its roles cannot be added as authorities 
  * for any user. 
  * 
@@ -47,7 +48,10 @@ public class Profile {
     * A disabled profile cannot have its roles added as authorities for any user. 
     */
    private boolean enabled;
-   /** */
+   /** Profile's Available Roles (Granted Authorities). */
+   @ManyToMany(cascade = CascadeType.ALL)
+   private List<Role> roles;
+   /** Profile's Related Credentials. */
    @ManyToMany(mappedBy = "profiles")
    private List<Credential> credentials;
    /** List of Available Roles for this Profile. */

@@ -15,6 +15,7 @@ import javax.persistence.PreUpdate;
  *
  * @author acmattos
  * @since 18/01/2018
+ * TODO Document Listener
  */
 @Component
 public class CredentialListener {
@@ -27,6 +28,13 @@ public class CredentialListener {
    // TODO DOCUMENT SOLUTION http://blog-en.lineofsightnet.com/2012/08/dependency-injection-on-stateless-beans.html
    private static PasswordEncoder passwordEncoder;
 
+   /**
+    * In order to allow automatic dependency injection of a class that is
+    * instantiated automaticaly by persistence framework (out of Spring's
+    * dependency management).
+    *
+    * @param passwordEncoder
+    */
    @Autowired(required = true)
    @Qualifier("passwordEncoder")
    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
