@@ -53,7 +53,7 @@ public class Role {
     * A disabled role cannot be added as an authority for any user. 
     */
    private boolean enabled;
-
+   /** Role's Related Profiles. */
    @ManyToMany(mappedBy = "roles")
    private List<Profile> profiles;
 }
