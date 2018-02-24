@@ -1,0 +1,24 @@
+<menu></menu>
+<h3>Participants of Requirements' Election</h3>
+<div uib-alert class="alert alert-warning" 
+     id="message" ng-if="vm.message">
+  {{vm.message}}
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Employee</th>
+      <th scope="col">Requirement</th>
+      <th scope="col">Comment</th>
+      <th scope="col">Date/Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="participant in vm.participants">
+      <th scope="row">{{participant.employee.name}}</th>
+      <td>{{participant.requirement.description}}</td>
+      <td>{{participant.comment}}</td>
+      <td>{{participant.datetime |  date:'dd-MM-yyyy HH:mm:ss'}}</td>
+    </tr> 
+  </tbody>
+</table>

@@ -48,13 +48,14 @@ public class Profile {
     * A disabled profile cannot have its roles added as authorities for any user. 
     */
    private boolean enabled;
-   /** Profile's Available Roles (Granted Authorities). */
-   @ManyToMany(cascade = CascadeType.ALL)
-   private List<Role> roles;
    /** Profile's Related Credentials. */
    @ManyToMany(mappedBy = "profiles")
    private List<Credential> credentials;
-   /** List of Available Roles for this Profile. */
-   @ManyToMany(cascade = CascadeType.ALL)
+   /** Profile's Available Roles (Granted Authorities). */
+   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   //@JoinTable(name = "profile_role")
+   @JoinTable(name = "profile_role",
+       joinColumns = @JoinColumn(name = "profile_id"),
+       inverseJoinColumns = @JoinColumn(name = "role_id"))
    private List<Role> roles;
 }
