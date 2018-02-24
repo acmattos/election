@@ -30,7 +30,7 @@ public class EmployeeVO {
    private Long id;
     /***/
    @ApiModelProperty(example="10001", position = 2, required = true)
-   private Integer employeeId;
+   private Integer employeeid;
    /***/
    @ApiModelProperty(example="John Doe", position = 3, required = true)
    private String name;
@@ -48,7 +48,7 @@ public class EmployeeVO {
     */
    @ApiModelProperty(hidden = true)
    public boolean isValid(){
-      return null != employeeId && employeeId > 0
+      return null != employeeid && employeeid > 0
          && null != this.name && this.name.length() > 0
          && null != this.email && this.email.length() > 0
          && credential.isValid();
@@ -82,7 +82,7 @@ public class EmployeeVO {
          vo = EmployeeVO.builder()
             .id(entity.getId())
             .name(entity.getName())
-            .employeeId(entity.getEmployeeid())
+            .employeeid(entity.getEmployeeid())
             .email(entity.getEmail())
             .credential(CredentialVO.toVO(entity.getCredential()))
             .build();
@@ -102,7 +102,7 @@ public class EmployeeVO {
          entity = Employee.builder()
             .id(vo.getId())
             .name(vo.getName())
-            .employeeid(vo.getEmployeeId())
+            .employeeid(vo.getEmployeeid())
             .email(vo.getEmail())
             .credential(CredentialVO.toEntity(vo.getCredential()))
             .build();

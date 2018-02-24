@@ -55,11 +55,11 @@ configure
       clients
          .inMemory()//jdbc(DataSource dataSource) 
          .withClient("election-frontend")
-         .secret("secret")
+         .secret("election-secret")
          .authorizedGrantTypes("password", "refresh_token")
          .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
          .scopes("read", "write", "trust")
-         .accessTokenValiditySeconds(600)// 10 min
+         .accessTokenValiditySeconds(120)// 10 min
          .refreshTokenValiditySeconds(7200);//120 min
    }
    

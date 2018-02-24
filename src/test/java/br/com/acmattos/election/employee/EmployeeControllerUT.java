@@ -51,8 +51,8 @@ public class EmployeeControllerUT extends UnitTest {
    private Employee entity;
 
     @Before
-    public void setup() throws Exception {
-        this.mvc = MockMvcBuilders.standaloneSetup(controller).build();
+   public void setup() throws Exception {
+      this.mvc = MockMvcBuilders.standaloneSetup(controller).build();
       CredentialVO credentialVO = CredentialVO.builder()
               .id(3L)
               .username("username")
@@ -61,15 +61,15 @@ public class EmployeeControllerUT extends UnitTest {
               .build();
       this.vo = EmployeeVO.builder()
               .id(1L)
-              .employeeId(2)
+              .employeeid(2)
               .name("name")
               .email("email")
               .credential(credentialVO)
               .build();
       this.entity = EmployeeVO.toEntity(this.vo);
-    }
+   }
 
-    @Test
+   @Test
    public void create_v1_invalidVO() throws Exception {
         EmployeeVO vo = null;
 //      Recurso recurso = getRecurso();
@@ -241,13 +241,9 @@ public class EmployeeControllerUT extends UnitTest {
 
    }
 
-//} catch(DataIntegrityViolationException dive){
-//    85             //TODO Tratamento adequado de email nao unico
-//    86             dive.printStackTrace();
-//    87             builder.key("Warning").value("Data already exists!").CONFLICT();
-//    88          }
    @Test
    public void update_v1_validVOButConstraintViolation() throws Exception {
+      when(repository.findOne(anyLong())).thenReturn(this.entity);
       doThrow(DataIntegrityViolationException.class).when(repository).save(any(Employee.class));
       this.mvc.perform(put("/v1/employees")
        .contentType(MediaType.APPLICATION_JSON_UTF8)

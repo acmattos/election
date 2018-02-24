@@ -47,6 +47,9 @@ public class Credential {
    private String password;
    /** Credential's Profiles. Cannot return null. */
    @ManyToMany// TODO MAP CORRECTLY http://blog.jbaysolutions.com/2012/12/17/jpa-2-relationships-many-to-many/
+   @JoinTable(name = "credential_profile",
+       joinColumns = @JoinColumn(name = "credential_id"),
+       inverseJoinColumns = @JoinColumn(name = "profile_id"))
    private List<Profile> profiles;
    /**
     * Credential's 'Enabled' Indicator. Indicates whether the user is enabled

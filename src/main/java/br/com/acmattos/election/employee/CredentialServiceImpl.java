@@ -20,6 +20,7 @@ public class CredentialServiceImpl implements CredentialService {
     @Autowired
     private CredentialRepository repository;
 
+    //@Autowired ProfileRepository profileRepository;
     /**
      * Finds a credention, with all profile and role associated information.
      *
@@ -30,6 +31,9 @@ public class CredentialServiceImpl implements CredentialService {
         Credential credential = repository.findByUsername(username);
         if(null != credential && null != credential.getProfiles()) {
             Hibernate.initialize(credential.getProfiles());// TODO DOCUMENT SOLUTION
+            for(Profile profile: credential.getProfiles()) {
+                Hibernate.initialize(profile.getRoles());
+            }
         }
         return credential;
     }

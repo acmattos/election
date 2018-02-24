@@ -4,6 +4,8 @@ import lombok.*;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
 
+import java.util.List;
+
 /**
  * Value Object that is similar to Credential entity, responsible to hold
  * Credential's data outside application scope.
@@ -32,8 +34,8 @@ public class CredentialVO {
    @ApiModelProperty(example="myP4ssW0rd!", position = 3, required = true)
    private String password;
    /** Credential's Granted Authorities. Cannot return null. */
-   //@ApiModelProperty(example="johndoe", position = 4, required = true)
-   //private List<Profile> profiles;
+   @ApiModelProperty(example="johndoe", position = 4, required = true)
+   private List<Profile> profiles;
    /** Credential's 'Enabled' Indicator. Indicates whether the user is enabled or disabled. A disabled user cannot be authenticated. */
    @ApiModelProperty(example="true", position = 5, required = true)
    private boolean enabled;
