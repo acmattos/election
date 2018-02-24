@@ -1,0 +1,24 @@
+<menu></menu>
+<h3>Partial Election Results</h3>
+<div uib-alert class="alert alert-warning" 
+     id="message" ng-if="!vm.results">
+  No requirements available at this very momento!
+</div>
+<div uib-alert class="alert alert-warning" 
+     id="message" ng-if="vm.message">
+  {{vm.message}}
+</div>
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Requirement</th>
+    <th scope="col">Number of Votes</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="result in vm.results">
+    <th scope="row">{{result.description}}</th>
+    <td>{{result.numberOfVotes}}</td>
+  </tr> 
+</tbody>
+</table>

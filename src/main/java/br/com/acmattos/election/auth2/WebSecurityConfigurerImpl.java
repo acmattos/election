@@ -34,9 +34,10 @@ public class WebSecurityConfigurerImpl extends WebSecurityConfigurerAdapter {
          .csrf().disable()
          .anonymous().disable()
          .authorizeRequests()
-         .antMatchers("/oauth/token").permitAll();
+         .antMatchers("/oauth/token").permitAll()
          //.antMatchers("/index.html", "/home.html", "/login.html", "/", "/home", "/login").permitAll()
-         //.anyRequest().authenticated();
+         //.anyRequest().authenticated()
+         ;
    }
    
    @Override

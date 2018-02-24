@@ -1,0 +1,23 @@
+<menu></menu>
+<h3>Vote for Requirements</h3>
+<div uib-alert class="alert alert-warning" 
+     id="message" ng-if="vm.message">
+  {{vm.message}}
+</div>
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Requirement</th>
+    <th scope="col">Comment</th>
+    <th scope="col"></th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="requirement in vm.requirements">
+    <th scope="row">{{requirement.description}}</th>
+    <td><input type="text" ng-model="requirement.comment"></td>
+    <td><button class="btn btn-primary" 
+      ng-click="vm.vote(requirement.id, requirement.comment)" 
+      ng-disabled="!requirement.comment">Vote!</button></td>
+  </tr> 
+</tbody>
