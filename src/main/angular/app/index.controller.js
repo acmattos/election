@@ -2,13 +2,13 @@
  * 'election' module controller. Controls general aspects of the application.
  */
 export default class IndexController{
-   constructor(scope, state, log, localStorageService, auth2Service, 
+   constructor(scope, state, log, window, auth2Service, 
       httpService, userService, LOGIN_STATE){
       let vm = this;
       vm._scope = scope;
       vm._state = state;
       vm._log = log;
-      vm._localStorageService = localStorageService;
+      vm._localStorage = window.localStorage;
       vm._auth2Service = auth2Service;
       vm._httpService = httpService;
       vm._userService = userService;
@@ -29,20 +29,21 @@ export default class IndexController{
       let request = this._httpService.createHttpRequest(
         'GET',
         '/v1/employees');
-      self._userService.getUser().then(
-      (user) => {
+     let user = self._userService.getUser();
+     if (user) {
          self._httpService.http(request).then(
             (response) => {
              let employees = response.data;
              let employee = employees.filter(function(employee){
-                if(user.email === employee.email){
+                if(user.username === employee.credential.username){
                     return employee;
                 }
              });
              self.employee = employee[0];
-             self._localStorageService.set('employee', self.employee);
+             self._localStorage.setItem('employee', 
+                JSON.stringify(self.employee));
          });
-      });
+      }
    }
 }
 
@@ -50,7 +51,7 @@ IndexController.$inject = [
    '$rootScope', 
    '$state',
    '$log',
-   'localStorageService',
+   '$window',
    'auth2Service',
    'httpService',
    'userService',

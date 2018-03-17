@@ -10,7 +10,6 @@ const OptimizeCssAssetsWebpackPlugin = require ('optimize-css-assets-webpack-plu
 const dist = 'dist-prod';
 const VENDOR_LIBS = [
    'angular',
-   'angular-local-storage',
    'angular-ui-bootstrap',
    'angular-ui-router',
    'bootstrap',

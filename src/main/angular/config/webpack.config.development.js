@@ -9,7 +9,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dist = 'dist-dev';
 const VENDOR_LIBS = [
    'angular',
-   'angular-local-storage',
    'angular-ui-bootstrap',
    'angular-ui-router',
    'bootstrap',

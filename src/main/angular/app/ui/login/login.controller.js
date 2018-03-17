@@ -51,7 +51,25 @@ export default class LoginController{
     */
    _verifyPreviousAuthentication(){
       let self = this;
-      self._tokenStorageService.getRefreshToken().then(
+      if(!self._tokenStorageService.isAccessTokenExpired()){
+        self._onSuccessfulLogin();
+      } else if(!self._tokenStorageService.isRefreshTokenExpired()){
+          self._auth2Service.refreshToken().then(
+          function(response){
+            if(response && 200 == response.status){
+                self._onSuccessfulLogin();
+            }
+          })
+          .catch(
+          function(error){
+            self._log.error(
+              'LoginController._verifyPreviousAuthentication:' + 
+              ' It was not possible to automatically login the employee!');
+          });
+      } else {
+
+      }
+/*       let refreshToken = self._tokenStorageService.getRefreshToken().then(
       function(refreshToken){
          if(refreshToken) {
             return self._auth2Service.refreshToken();
@@ -68,7 +86,7 @@ export default class LoginController{
          self._log.error(
            'LoginController._verifyPreviousAuthentication:' + 
            ' It was not possible to automatically login the employee!');
-      });
+      }); */
    }
 
    /**

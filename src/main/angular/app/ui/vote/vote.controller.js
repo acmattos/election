@@ -3,13 +3,13 @@
  * requirements from BE and presents them. It also computes employee's votes.
  */
 export default class VoteController{
-   constructor(filter, log, q, timeout, localStorageService, httpService, 
+   constructor(filter, log, q, timeout, window, httpService, 
       userService) {
       let vm = this;
       vm._filter = filter;
       vm._log = log;
       vm._q = q;
-      vm._localStorageService = localStorageService;
+      vm._localStorage = window.localStorage;
       vm._httpService = httpService;
       vm._userService = userService;
       vm.requirements = {};
@@ -81,10 +81,11 @@ export default class VoteController{
    _getEmployee() {
      let self = this;
      let defered = self._q.defer(); 
-     let employee = self._localStorageService.get('employee');
+     let employee = JSON.parse(
+       self._localStorage.getItem('employee'));
      if(!employee){
-        self._userService.getUser().then(
-        (user) => {
+        let user = self._userService.getUser();
+        if(user){
             let request = this._httpService.createHttpRequest(
                 'GET', 
                 '/v1/employees'); 
@@ -97,10 +98,11 @@ export default class VoteController{
                   }
                });
                self.employee = employee[0];
-               self._localStorageService.set('employee', self.employee);
+               self._localStorage.setItem('employee', 
+                  JSON.stringify(self.employee));
                defered.resolve(self.employee);
             });
-        });
+        }
      } else {
         defered.resolve(employee);
      }
@@ -134,7 +136,7 @@ VoteController.$inject = [
    '$log',
    '$q',
    '$timeout',
-   'localStorageService',
+   '$window',
    'httpService',
    'userService'
 ];
